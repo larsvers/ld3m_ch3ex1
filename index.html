@@ -4,7 +4,7 @@
 <title>chapter 3 example 1</title>
 <meta charset="utf-8">
   
-<script src="//d3js.org/d3.v4.js"></script>
+<script src="//d3js.org/d3.v4.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
 
 <style type="text/css">
@@ -147,6 +147,21 @@ function ready(world) {
 
   // The world
   var countries = topojson.feature(world, world.objects.ne_110m_admin_0_countries); // Convert TopoJSON to GeoJSON array of countries
+
+  // Reduce properties - keep only country admin name
+  countries.features = countries.features.map(function(el) {
+
+    return { 
+      geometry: el.geometry,
+      type: el.type,
+      properties: { 
+        admin: el.properties.admin,
+        adm0_a3: el.properties.adm0_a3,
+        pop_est: el.properties.pop_est
+      }
+    };
+
+  });
 
   console.log(countries);
 
